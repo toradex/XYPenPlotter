@@ -1,4 +1,5 @@
 import QtQuick 1.1
+import Effects 1.0
 
 Rectangle {
     width: 800
