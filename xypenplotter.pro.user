@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.0.0, 2014-01-13T17:53:46. -->
+<!-- Written by QtCreator 3.0.0, 2014-01-17T17:56:16. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">0</value>
+  <value type="int">1</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -236,11 +236,11 @@
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseTerminal">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
-    <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseCppDebugger">true</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">false</value>
     <value type="bool" key="RunConfiguration.UseMultiProcess">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
-    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebugger">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">false</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
@@ -248,8 +248,8 @@
  <data>
   <variable>ProjectExplorer.Project.Target.1</variable>
   <valuemap type="QVariantMap">
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Colibri VF61</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Colibri VF61</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Colibri VF</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Colibri VF</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{9a0f202b-d28a-4a3d-84ca-6db2e54d04b6}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">1</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
@@ -393,13 +393,68 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Upload files via SFTP</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">RemoteLinux.DirectUploadStep</value>
-      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles"/>
-      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts"/>
-      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths"/>
-      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedSysroots"/>
-      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes"/>
+      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/main.qml</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Debug/xypenplotter</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/main.qml</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/main.qml</value>
+      </valuelist>
+      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+       <value type="QString">192.168.10.50</value>
+      </valuelist>
+      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths">
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/bin</value>
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/bin</value>
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/bin</value>
+       <value type="QString">/opt/xypenplotter/bin</value>
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+      </valuelist>
+      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedSysroots">
+       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
+       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
+       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots</value>
+      </valuelist>
+      <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
+       <value type="QDateTime">2014-01-17T16:28:59</value>
+       <value type="QDateTime">2014-01-17T16:29:00</value>
+       <value type="QDateTime">2014-01-14T16:39:13</value>
+       <value type="QDateTime">2014-01-14T16:39:14</value>
+       <value type="QDateTime">2014-01-17T16:28:59</value>
+       <value type="QDateTime">2014-01-14T14:34:39</value>
+       <value type="QDateTime">2014-01-14T14:44:05</value>
+       <value type="QDateTime">2014-01-14T16:55:12</value>
+       <value type="QDateTime">2014-01-14T16:50:46</value>
+       <value type="QDateTime">2014-01-14T14:34:39</value>
+      </valuelist>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.IgnoreMissingFiles">false</value>
-      <value type="bool" key="RemoteLinux.GenericDirectUploadStep.Incremental">true</value>
+      <value type="bool" key="RemoteLinux.GenericDirectUploadStep.Incremental">false</value>
      </valuemap>
      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Deploy</value>
@@ -450,11 +505,11 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">1</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">XYPenPlotter (on Remote Device)</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">xypenplotter (on Remote Device)</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">RemoteLinuxRunConfiguration:/home/ags/QtProjects/XYPenPlotter/XYPenPlotter.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">RemoteLinuxRunConfiguration:/home/ags/QtProjects/XYPenPlotter/xypenplotter.pro</value>
     <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.Arguments"/>
-    <value type="QString" key="Qt4ProjectManager.MaemoRunConfiguration.ProFile">XYPenPlotter.pro</value>
+    <value type="QString" key="Qt4ProjectManager.MaemoRunConfiguration.ProFile">xypenplotter.pro</value>
     <value type="QString" key="RemoteLinux.RunConfig.AlternateRemoteExecutable"></value>
     <value type="bool" key="RemoteLinux.RunConfig.UseAlternateRemoteExecutable">false</value>
     <value type="QString" key="RemoteLinux.RunConfig.WorkingDirectory"></value>

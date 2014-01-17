@@ -7,7 +7,8 @@ DEPLOYMENTFOLDERS = folder_01
 QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    cpuinfo.cpp
 
 # Installation path
 # target.path =
@@ -21,3 +22,7 @@ OTHER_FILES += \
     qml/XYPenPlotter/Button.qml
 
 RESOURCES = resources.qrc
+
+HEADERS += \
+    cpuinfo.h
+

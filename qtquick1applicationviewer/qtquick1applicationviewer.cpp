@@ -114,6 +114,6 @@ void QtQuick1ApplicationViewer::showExpanded()
 #if defined(Q_WS_SIMULATOR) || defined(Q_OS_QNX)
     showFullScreen();
 #else
-    show();
+    showFullScreen();
 #endif
 }
