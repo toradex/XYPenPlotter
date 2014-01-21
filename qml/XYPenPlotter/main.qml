@@ -116,20 +116,21 @@ Rectangle {
         }
 
         Row {
+
+        }
+        Row {
+
+
             Text {
                 text: "CPU-Load: "
             }
 
-            Rectangle {
-                id: cpuLoadBar
-                width: 500
-                height: 20
-                color: "green"
-
+            ProgressBar {
+                id: progressBar
 
                 Text {
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
 
                     id: cpuLoadText
                     text: "0%"
@@ -140,9 +141,11 @@ Rectangle {
     }
 
     Timer {
-        interval: 500; running: true; repeat: true;
+        interval: 300; running: true; repeat: true;
         onTriggered: {
-            cpuLoadText.text = cpuInfo.getCpuLoad().toFixed(1);
+            var load = cpuInfo.getCpuLoad();
+            cpuLoadText.text = load.toFixed(1);
+            progressBar.progress = load;
         }
 
     }
