@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.0.0, 2014-01-17T17:56:16. -->
+<!-- Written by QtCreator 3.0.0, 2014-01-21T15:23:47. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
-  <value type="int">1</value>
+  <value type="int">0</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.EditorSettings</variable>
@@ -394,15 +394,15 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">RemoteLinux.DirectUploadStep</value>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
+       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
        <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/main.qml</value>
-       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
-       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
-       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
-       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
-       <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/Button.qml</value>
-       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
        <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Debug/xypenplotter</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
        <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/main.qml</value>
+       <value type="QString">/home/ags/QtProjects/build-XYPenPlotter-Colibri_VF61-Release/xypenplotter</value>
        <value type="QString">/home/ags/QtProjects/XYPenPlotter/qml/XYPenPlotter/main.qml</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
@@ -419,39 +419,39 @@
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedRemotePaths">
        <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
-       <value type="QString">/opt/xypenplotter/bin</value>
-       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
-       <value type="QString">/opt/xypenplotter/bin</value>
        <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
        <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
        <value type="QString">/opt/xypenplotter/bin</value>
+       <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/bin</value>
        <value type="QString">/opt/xypenplotter/bin</value>
        <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
+       <value type="QString">/opt/xypenplotter/bin</value>
        <value type="QString">/opt/xypenplotter/qml/XYPenPlotter</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedSysroots">
-       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
-       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
-       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
-       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
-       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
        <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
+       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
+       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
        <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots</value>
        <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
        <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
+       <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf</value>
        <value type="QString">/home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots</value>
+       <value type="QString">/usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
+       <value type="QDateTime">2014-01-14T14:34:39</value>
+       <value type="QDateTime">2014-01-14T16:39:13</value>
        <value type="QDateTime">2014-01-17T16:28:59</value>
        <value type="QDateTime">2014-01-17T16:29:00</value>
-       <value type="QDateTime">2014-01-14T16:39:13</value>
-       <value type="QDateTime">2014-01-14T16:39:14</value>
-       <value type="QDateTime">2014-01-17T16:28:59</value>
        <value type="QDateTime">2014-01-14T14:34:39</value>
-       <value type="QDateTime">2014-01-14T14:44:05</value>
        <value type="QDateTime">2014-01-14T16:55:12</value>
+       <value type="QDateTime">2014-01-14T16:39:14</value>
        <value type="QDateTime">2014-01-14T16:50:46</value>
-       <value type="QDateTime">2014-01-14T14:34:39</value>
+       <value type="QDateTime">2014-01-14T14:44:05</value>
+       <value type="QDateTime">2014-01-17T16:28:59</value>
       </valuelist>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.IgnoreMissingFiles">false</value>
       <value type="bool" key="RemoteLinux.GenericDirectUploadStep.Incremental">false</value>

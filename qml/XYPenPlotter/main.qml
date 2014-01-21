@@ -10,7 +10,7 @@ Rectangle {
     property color buttonColor: "lightblue"
     property color onHoverColor: "gold"
     property color borderColor: "white"
-
+/*
     SequentialAnimation on rotation {
                     running: mouse.pressed
                     id: anim
@@ -25,7 +25,7 @@ Rectangle {
                     onEntered: { anim.start() }
                     onExited: { anim.stop(); parent.rotation = 0 }
             }
-
+*/
     Column {
         anchors.topMargin: 10
         anchors.top: parent.top
@@ -139,6 +139,12 @@ Rectangle {
         }
     }
 
+    Timer {
+        interval: 500; running: true; repeat: true;
+        onTriggered: {
+            cpuLoadText.text = cpuInfo.getCpuLoad().toFixed(1);
+        }
 
+    }
 
 }

@@ -18,15 +18,16 @@ int main(int argc, char *argv[])
 
     QtQuick1ApplicationViewer viewer;
 
-/*
+
     CpuInfo cpuInfo;
-    viewer.rootContext()->setContextProperty("cpuInfo", &cpuInfo);*/
+    viewer.rootContext()->setContextProperty("cpuInfo", &cpuInfo);
 
     viewer.addImportPath(QLatin1String("modules"));
     viewer.setOrientation(QtQuick1ApplicationViewer::ScreenOrientationAuto);
     viewer.setMainQmlFile(QLatin1String("qml/XYPenPlotter/main.qml"));
-    viewer.showFullScreen();
-    //viewer.show();
+    //viewer.showFullScreen();
+    viewer.show();
+
 
     return app.exec();
 }
