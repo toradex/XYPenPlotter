@@ -15,9 +15,9 @@ public:
 private:
     void refreshCpuTicks();
 
-    long totalTicks = 0;
-    long idle = 0;
-    float cpuLoad = 0;
+    long totalTicks;
+    long idle;
+    float cpuLoad;
 private slots:
     void tick();
 };

@@ -3,21 +3,19 @@
 #include <QGraphicsBlurEffect>
 #include <QDeclarativeEngine>
 #include <QtDeclarative>
+#include <QWSServer>
 #include "cpuinfo.h"
 
 int main(int argc, char *argv[])
 {
-    /*
-    qmlRegisterType<QGraphicsBlurEffect>("Effects",1,0,"Blur");
-    qmlRegisterType<QGraphicsColorizeEffect>("Effects",1,0,"Colorize");
-    qmlRegisterType<QGraphicsDropShadowEffect>("Effects",1,0,"DropShadow");
-    qmlRegisterType<QGraphicsOpacityEffect>("Effects",1,0,"OpacityEffect");
-*/
-
     QApplication app(argc, argv);
 
     QtQuick1ApplicationViewer viewer;
 
+    /* Disable cursor since we have a touchscreen */
+#ifdef Q_WS_QWS
+    QWSServer::setCursorVisible( false );
+#endif
 
     CpuInfo cpuInfo;
     viewer.rootContext()->setContextProperty("cpuInfo", &cpuInfo);
@@ -25,9 +23,14 @@ int main(int argc, char *argv[])
     viewer.addImportPath(QLatin1String("modules"));
     viewer.setOrientation(QtQuick1ApplicationViewer::ScreenOrientationAuto);
     viewer.setMainQmlFile(QLatin1String("qml/XYPenPlotter/main.qml"));
-    //viewer.showFullScreen();
-    viewer.show();
 
+    /* Show in fullscreen on target */
+#ifdef Q_WS_QWS
+    viewer.showFullScreen();
+#else
+    viewer.show();
+#endif
 
     return app.exec();
 }
+
