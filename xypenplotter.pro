@@ -13,16 +13,18 @@ SOURCES += main.cpp \
 # Installation path
 # target.path =
 
-# Please do not modify the following two lines. Required for deployment.
-include(qtquick1applicationviewer/qtquick1applicationviewer.pri)
-qtcAddDeployment()
-
 OTHER_FILES += \
     toradex-logo.png \
-    qml/XYPenPlotter/Button.qml
+    qml/XYPenPlotter/Button.qml \
+    qml/XYPenPlotter/main.qml \
+    qml/XYPenPlotter/ProgressBar.qml \
+    qml/XYPenPlotter/RoundButton.qml
 
 RESOURCES = resources.qrc
 
 HEADERS += \
     cpuinfo.h
 
+# Please do not modify the following two lines. Required for deployment.
+include(qtquick1applicationviewer/qtquick1applicationviewer.pri)
+qtcAddDeployment()

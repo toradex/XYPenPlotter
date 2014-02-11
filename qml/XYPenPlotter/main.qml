@@ -1,141 +1,263 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: 635
-    height: 480
+    width: 1024
+    height: 600
     color: "#f1f1f1"
 
+    Image {
+        id: background
+        width: parent.width
+        height: parent.height
+        fillMode: Image.Tile
+        source: "qrc:///background.png"
 
+    }
 
-    property color buttonColor: "lightblue"
-    property color onHoverColor: "gold"
-    property color borderColor: "white"
-/*
-    SequentialAnimation on rotation {
-                    running: mouse.pressed
-                    id: anim
-                    loops: Animation.Infinite
-                    NumberAnimation { from: 0; to: 360; easing.type: Easing.InOutBack; duration: 4000 }
-                    PauseAnimation { duration: 2000 }
-            }
-    MouseArea {
-                    id: mouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onEntered: { anim.start() }
-                    onExited: { anim.stop(); parent.rotation = 0 }
-            }
-*/
     Column {
-        anchors.topMargin: 10
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
 
-        spacing: 10
-
-
-        /* Row 1 */
-
-        Row {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 620
-            spacing: 10
-            Image {
-                width: 211; height: 48;
-                source: "qrc:///toradex-logo.png"
-            }
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("XY-Plotter")
-                font.pointSize: 15
-                rotation: 0
-            }
-        }
-
-        /* Row 2 */
-
-        Row {
-
-            spacing: 50
-            Button {
-                id: loadButton
-                buttonLabel: "CPU-Load"
-
-                onButtonClick: {
-                }
-            }
-            Button {
-                id: quitButton
-                color: "#d4d4d4"
-                buttonLabel: "Quit"
-
-                onButtonClick: {
-                    Qt.quit();
-                }
-            }
-            Button {
-                id: sendButton
-                color: "#d4d4d4"
-                buttonLabel: "Send"
-
-                onButtonClick: {
-                    animateOpacity.start()
-                }
-            }
-
-        }
+        width: parent.width
+        height: parent.height;
 
 
         Row {
+            id: header
+            width: parent.width
+            height: 90
+
             Rectangle {
-                width: 180; height: 180
-                color: "transparent"
-                Rectangle {
-                     id: flashingblob
-                     anchors.horizontalCenter: parent.horizontalCenter;
-                     anchors.verticalCenter: parent.verticalCenter;
-                     width: 180; height: 180
-                     color: "gray"
-                     opacity: 1.0
+                property real lineOpacity: 0.1
 
-                     NumberAnimation {
-                         id: animateOpacity
-                         target: flashingblob
-                         properties: "width, height"
-                         from: 180.0
-                         to: 0.0
-                         duration: 2000
-                         easing
-                         {
-                             type: Easing.InQuart;
-                         }
+                id: headerBackground
+                height: parent.height
+                width: parent.width
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: "#0067ab" }
+                    GradientStop { position: 1.0; color: "#005289" }
+                }
+
+
+                Component.onCompleted: {
+                    /* Create horizontal/vertical lines dynamically */
+                    for(var i=4; i < height; i+= 5)
+                    {
+                        Qt.createQmlObject('import QtQuick 1.1; Rectangle { height: 1; width: parent.width; \
+                            x: 0; y: ' + i + '; color: "white"; opacity: parent.lineOpacity; parent: headerBackground }',
+                             headerBackground);
+                    }
+                    for(i=3; i < width; i+= 5)
+                    {
+                        Qt.createQmlObject('import QtQuick 1.1; Rectangle { height: parent.height; width: 1; \
+                            x: ' + i + '; y: 0; color: "white"; opacity: parent.lineOpacity; parent: headerBackground }',
+                             headerBackground);
+                    }
+
+                }
+
+
+                Image {
+                    id: toradexLogo
+                    anchors.top: parent.top
+                    anchors.topMargin: 20
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+
+                    width: 211; height: 48;
+                    source: "qrc:///toradex-logo-white.png"
+                }
+
+                Item
+                {
+                    anchors.top: parent.top
+                    anchors.topMargin: 20
+
+                    anchors.left: toradexLogo.right
+                    anchors.leftMargin: 50
+
+                    Rectangle {
+                        width: 2
+                        height: 50
+                        color: "#c1d72e"
+
+                    }
+
+                    Text {
+                        anchors.top: parent.top
+                        anchors.topMargin: -10 /* why? */
+
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+
+                        text: qsTr("XY-Plotter")
+                        font.bold: true
+                        style: Text.Raised
+                        styleColor: "black"
+                        font.pixelSize: 30
+                        color: "white"
+                    }
+
+                    Text {
+                        anchors.top: parent.top
+                        anchors.topMargin: 28
+
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+
+                        text: qsTr("Demo")
+                        font.bold: true
+                        style: Text.Raised
+                        styleColor: "black"
+                        font.pixelSize: 20
+                        color: "white"
+                    }
+                }
+
+            }
+
+        }
+
+        Row
+        {
+            height: parent.height - header.height
+            width: parent.width
+
+            /* Column picture... */
+            Column {
+                id: columnPicture
+                height: parent.height;
+                width: 500
+
+
+                Item {
+                    /* Placeholder for image */
+                    height: parent.height
+                    width: parent.width
+
+                    Rectangle {
+                        anchors.horizontalCenter: parent.horizontalCenter;
+                        anchors.verticalCenter: parent.verticalCenter;
+
+                        width: 300; height: 300
+                        color: "transparent"
+                        Rectangle {
+                             id: flashingblob
+                             anchors.horizontalCenter: parent.horizontalCenter;
+                             anchors.verticalCenter: parent.verticalCenter;
+                             width: 300; height: 300
+                             color: "#aaaaaa"
+                             opacity: 1.0
+
+                             NumberAnimation {
+                                 id: animateOpacity
+                                 target: flashingblob
+                                 properties: "width, height"
+                                 from: 300.0
+                                 to: 0.0
+                                 duration: 2000
+                                 easing
+                                 {
+                                     type: Easing.InQuart;
+                                 }
+                            }
+                        }
                     }
                 }
             }
-        }
-
-        Row {
-
-        }
-        Row {
 
 
-            Text {
-                text: "CPU-Load: "
-            }
+            /* Column Buttons.. */
+            Column {
+                height: parent.height;
+                width: parent.width - columnPicture.width;
 
-            ProgressBar {
-                id: progressBar
 
-                Text {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
+                /* Big button */
+                Row {
+                    height: 300
+                    width: parent.width
 
-                    id: cpuLoadText
-                    text: "0%"
+                    Item
+                    {
+                        height: parent.height;
+                        width: parent.width;
+
+                        RoundButton {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            buttonSize: 180
+                            upperColor: "#0067ab"
+                            lowerColor: "#005288"
+                            borderColor: "#c8e2f4"
+                            borderSize: 10
+                            buttonLabel: "Start"
+
+                        }
+                    }
                 }
+
+                Row {
+                    height: 50
+
+                    Text {
+                        text: "CPU-Load: "
+                    }
+
+                    ProgressBar {
+                        id: progressBar
+
+                        Text {
+                            anchors.left: parent.left
+                            anchors.leftMargin: 5
+
+                            id: cpuLoadText
+                            text: "0%"
+                        }
+                    }
+
+                }
+
+                Row {
+
+                    spacing: 50
+                    RoundButton {
+                        id: loadButton
+                        upperColor: "#6d6d6d"
+                        lowerColor: "#4a4a4a"
+                        borderColor: "#dadada"
+                        buttonLabel: "CPU<br>Load"
+
+                        onButtonClick: {
+                        }
+                    }
+                    RoundButton {
+                        id: quitButton
+                        borderColor: "#dadada"
+
+                        buttonLabel: "Quit"
+
+                        onButtonClick: {
+                            Qt.quit();
+                        }
+                    }
+                    RoundButton {
+                        id: sendButton
+                        upperColor: "#6d6d6d"
+                        lowerColor: "#4a4a4a"
+                        borderColor: "#dadada"
+
+                        buttonLabel: "Send"
+
+                        onButtonClick: {
+                            animateOpacity.start()
+                        }
+                    }
+                }
+
             }
+
 
         }
     }
