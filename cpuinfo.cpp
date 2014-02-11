@@ -23,11 +23,8 @@ void CpuInfo::tick()
     long idleOld = idle;
     refreshCpuTicks();
 
-    qDebug() << "Total: " << totalTicks;
-    qDebug() << "Idle: " << idle;
     cpuLoad = (float)(idle - idleOld) * 100 / (totalTicks - totalTicksOld);
     cpuLoad = 100 - cpuLoad;
-    qDebug() << "CPU-Load: " << cpuLoad;
 }
 
 void CpuInfo::refreshCpuTicks( )

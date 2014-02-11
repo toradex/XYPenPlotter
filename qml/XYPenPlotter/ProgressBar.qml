@@ -11,7 +11,6 @@ Rectangle {
     width: 302
     height: 19
 
-
     Image {
         anchors.left: parent.left
         anchors.leftMargin: 2

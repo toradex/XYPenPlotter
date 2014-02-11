@@ -21,6 +21,7 @@ Rectangle {
         width: parent.width
         height: parent.height;
 
+        /* Header Row */
 
         Row {
             id: header
@@ -118,10 +119,13 @@ Rectangle {
 
         }
 
+        /* Main UI Row */
         Row
         {
-            height: parent.height - header.height
-            width: parent.width
+            height: parent.height - header.height - 30
+            width: parent.width - 30
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
 
             /* Column picture... */
             Column {
@@ -188,24 +192,39 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
 
                             buttonSize: 180
-                            upperColor: "#0067ab"
+                            //upperColor: "#0067ab"
+                            upperColor: "#46a0da"
                             lowerColor: "#005288"
                             borderColor: "#c8e2f4"
                             borderSize: 10
                             buttonLabel: "Start"
 
+                            onButtonClick: {
+                                animateOpacity.start()
+                            }
                         }
                     }
                 }
 
                 Row {
-                    height: 50
+                    height: 20
+                    width: parent.width
 
                     Text {
-                        text: "CPU-Load: "
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: "CPU-Load"
+                        color: "#141414"
                     }
+                }
+
+                Row {
+                    height: 50
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width - 40
+
 
                     ProgressBar {
+                        width: parent.width
                         id: progressBar
 
                         Text {
@@ -220,40 +239,56 @@ Rectangle {
                 }
 
                 Row {
+                    height: 100
+                    width: parent.width
 
-                    spacing: 50
-                    RoundButton {
-                        id: loadButton
-                        upperColor: "#6d6d6d"
-                        lowerColor: "#4a4a4a"
-                        borderColor: "#dadada"
-                        buttonLabel: "CPU<br>Load"
+                    CoolLine {
+                        anchors.top: parent.top
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width
+                        height: parent.height
 
-                        onButtonClick: {
+                        Row {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            spacing: 40
+
+                            RoundButton {
+                                id: loadButton
+                                upperColor: "#6d6d6d"
+                                lowerColor: "#4a4a4a"
+                                borderColor: "#dadada"
+                                buttonLabel: "CPU<br>Load"
+
+                                onButtonClick: {
+                                }
+                            }
+                            RoundButton {
+                                id: quitButton
+                                borderColor: "#dadada"
+
+                                buttonLabel: "Quit"
+
+                                onButtonClick: {
+                                    Qt.quit();
+                                }
+                            }
+                            RoundButton {
+                                id: sendButton
+                                upperColor: "#6d6d6d"
+                                lowerColor: "#4a4a4a"
+                                borderColor: "#dadada"
+
+                                buttonLabel: "Send"
+
+                            }
                         }
+
                     }
-                    RoundButton {
-                        id: quitButton
-                        borderColor: "#dadada"
 
-                        buttonLabel: "Quit"
 
-                        onButtonClick: {
-                            Qt.quit();
-                        }
-                    }
-                    RoundButton {
-                        id: sendButton
-                        upperColor: "#6d6d6d"
-                        lowerColor: "#4a4a4a"
-                        borderColor: "#dadada"
 
-                        buttonLabel: "Send"
-
-                        onButtonClick: {
-                            animateOpacity.start()
-                        }
-                    }
                 }
 
             }
