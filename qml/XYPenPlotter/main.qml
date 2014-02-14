@@ -138,16 +138,17 @@ Rectangle {
 
                 Item {
                     /* Placeholder for image */
-                    height: 350
-                    width: parent.width
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: 360
+                    width: 410
 
-                    Rectangle {
+                    Image {
                         id: selectedPictureBackground;
                         anchors.horizontalCenter: parent.horizontalCenter;
                         anchors.verticalCenter: parent.verticalCenter;
 
-                        width: 400; height: 300
-                        color: "white"
+                        width: 410; height: 310
+                        source: "qrc:///background_image.png"
 
                         Image {
                             id: selectedPicture;
@@ -239,49 +240,57 @@ Rectangle {
                     }
                 }
 
-                Row {
-                    width: parent.width
+                Item {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 400
                     height: 75
-                    spacing: 40
 
-                        Rectangle {
-                            width: 100
+                    Image {
+                        anchors.left: parent.left
+
+                        width: 100
+                        height: parent.height
+                        source: "qrc:///background_image_small.png"
+
+                        Image {
+                            id: picture1
+                            width: parent.width
                             height: parent.height
-                            color: "white"
-                            Image {
-                                id: picture1
-                                width: parent.width
-                                height: parent.height
-                                source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
-                            }
+                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
                         }
 
-                        Rectangle {
+                    }
+
+                    Image {
+                        anchors.horizontalCenter: parent.horizontalCenter
+
+                        width: 100
+                        height: parent.height
+                        source: "qrc:///background_image_small.png"
+
+                        Image {
+                            id: picture2
                             width: 100
                             height: parent.height
-                            color: "white"
-                            Image {
-                                id: picture2
-                                width: 100
-                                height: parent.height
-                                source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
-                            }
+                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
                         }
+                    }
 
-                        Rectangle {
+
+                    Image {
+                        anchors.right: parent.right
+
+                        width: 100
+                        height: parent.height
+                        source: "qrc:///background_image_small.png"
+
+                        Image {
+                            id: picture3
                             width: 100
                             height: parent.height
-                            color: "white"
-
-                            Image {
-                                id: picture3
-                                width: 100
-                                height: parent.height
-                                source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
-                            }
+                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
                         }
-
-
+                    }
                 }
 
             }

@@ -3,5 +3,7 @@
         <file>toradex-logo-white.png</file>
         <file>progressbar.png</file>
         <file>background.png</file>
+        <file>background_image_small.png</file>
+        <file>background_image.png</file>
     </qresource>
 </RCC>
