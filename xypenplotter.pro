@@ -14,7 +14,6 @@ SOURCES += main.cpp \
 # target.path =
 
 OTHER_FILES += \
-    toradex-logo.png \
     qml/XYPenPlotter/Button.qml \
     qml/XYPenPlotter/main.qml \
     qml/XYPenPlotter/ProgressBar.qml \

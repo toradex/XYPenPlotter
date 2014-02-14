@@ -122,29 +122,99 @@ Rectangle {
         /* Main UI Row */
         Row
         {
-            height: parent.height - header.height - 30
+            height: parent.height - header.height
             width: parent.width - 30
-            anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: header.bottom
 
             /* Column picture... */
             Column {
                 id: columnPicture
                 height: parent.height;
+                anchors.top: parent.top
+                anchors.topMargin: 20
                 width: 500
 
 
                 Item {
                     /* Placeholder for image */
-                    height: parent.height
+                    height: 350
                     width: parent.width
 
                     Rectangle {
+                        id: selectedPictureBackground;
                         anchors.horizontalCenter: parent.horizontalCenter;
                         anchors.verticalCenter: parent.verticalCenter;
 
-                        width: 300; height: 300
-                        color: "transparent"
+                        width: 400; height: 300
+                        color: "white"
+
+                        Image {
+                            id: selectedPicture;
+                            width: parent.width
+                            height: parent.height
+                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                        }
+
+                        SequentialAnimation {
+                            id: startAnimation
+                            ParallelAnimation {
+                                NumberAnimation {
+                                    target: selectedPictureBackground
+                                    properties: "width"
+                                    from: selectedPictureBackground.width
+                                    to: 0.0
+                                    duration: 2000
+                                    easing
+                                    {
+                                        type: Easing.InQuart;
+                                    }
+                               }
+                                NumberAnimation {
+                                    target: selectedPictureBackground
+                                    properties: "height"
+                                    from: selectedPictureBackground.height
+                                    to: 0.0
+                                    duration: 2000
+                                    easing
+                                    {
+                                        type: Easing.InQuart;
+                                    }
+                               }
+                           }
+                           ParallelAnimation  {
+                               NumberAnimation {
+                                   target: selectedPictureBackground
+                                   properties: "opacity"
+                                   from: 1.0
+                                   to: 0.0
+                                   duration: 0
+                               }
+                               PropertyAnimation {
+                                   target: selectedPictureBackground
+                                   property: "width"
+                                   to: selectedPictureBackground.width
+                                   duration: 0
+                               }
+                               PropertyAnimation {
+                                   target: selectedPictureBackground
+                                   property: "height"
+                                   to: selectedPictureBackground.height
+                                   duration: 0
+                               }
+
+                           }
+
+                           NumberAnimation {
+                               target: selectedPictureBackground
+                               properties: "opacity"
+                               from: 0.0
+                               to: 1.0
+                               duration: 4000
+                           }
+
+                       }
+/*
                         Rectangle {
                              id: flashingblob
                              anchors.horizontalCenter: parent.horizontalCenter;
@@ -165,9 +235,55 @@ Rectangle {
                                      type: Easing.InQuart;
                                  }
                             }
-                        }
+                        }*/
                     }
                 }
+
+                Row {
+                    width: parent.width
+                    height: 75
+                    spacing: 40
+
+                        Rectangle {
+                            width: 100
+                            height: parent.height
+                            color: "white"
+                            Image {
+                                id: picture1
+                                width: parent.width
+                                height: parent.height
+                                source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            }
+                        }
+
+                        Rectangle {
+                            width: 100
+                            height: parent.height
+                            color: "white"
+                            Image {
+                                id: picture2
+                                width: 100
+                                height: parent.height
+                                source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            }
+                        }
+
+                        Rectangle {
+                            width: 100
+                            height: parent.height
+                            color: "white"
+
+                            Image {
+                                id: picture3
+                                width: 100
+                                height: parent.height
+                                source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            }
+                        }
+
+
+                }
+
             }
 
 
@@ -182,25 +298,21 @@ Rectangle {
                     height: 300
                     width: parent.width
 
-                    Item
-                    {
-                        height: parent.height;
-                        width: parent.width;
+                    CoolLine {
+                        anchors.top: parent.top
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width - 80
+                        height: parent.height
 
-                        RoundButton {
+                        MainRoundButton {
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
 
                             buttonSize: 180
-                            //upperColor: "#0067ab"
-                            upperColor: "#46a0da"
-                            lowerColor: "#005288"
-                            borderColor: "#c8e2f4"
-                            borderSize: 10
                             buttonLabel: "Start"
 
                             onButtonClick: {
-                                animateOpacity.start()
+                                startAnimation.start()
                             }
                         }
                     }

@@ -5,10 +5,10 @@ Rectangle {
 
     onProgressChanged:
     {
-        imageProgress.width = progress * 3;
+        imageProgress.width = progress * width / 100;
+        height: 19
     }
 
-    width: 302
     height: 19
 
     Image {
