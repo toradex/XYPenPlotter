@@ -3,13 +3,15 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QThread>
+#include "cpuloadworker.h"
 
 class CpuInfo : public QTimer
 {
     Q_OBJECT
 public:
     CpuInfo(QObject *parent = 0);
-    void generateCpuLoad();
+    Q_INVOKABLE void setCpuLoadActive(bool load);
     Q_INVOKABLE float getCpuLoad();
 
 private:
@@ -18,6 +20,10 @@ private:
     long totalTicks;
     long idle;
     float cpuLoad;
+
+    QThread *workerThread;
+    CpuLoadWorker *worker;
+
 private slots:
     void tick();
 };

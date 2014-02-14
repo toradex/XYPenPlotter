@@ -16,7 +16,6 @@ Rectangle {
     signal buttonClick()
     onButtonClick: {
         console.log(buttonLabel + " clicked" )
-        //colorAnimation.start()
     }
 
     MouseArea {
@@ -68,6 +67,7 @@ Rectangle {
 
     Text {
         anchors.centerIn: parent
+        horizontalAlignment: Text.AlignHCenter;
         text: parent.buttonLabel
         font.pixelSize: 20
         font.bold: true

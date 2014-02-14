@@ -8,7 +8,8 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    cpuinfo.cpp
+    cpuinfo.cpp \
+    cpuloadworker.cpp
 
 # Installation path
 # target.path =
@@ -22,7 +23,8 @@ OTHER_FILES += \
 RESOURCES = resources.qrc
 
 HEADERS += \
-    cpuinfo.h
+    cpuinfo.h \
+    cpuloadworker.h
 
 # Please do not modify the following two lines. Required for deployment.
 include(qtquick1applicationviewer/qtquick1applicationviewer.pri)

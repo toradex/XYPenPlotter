@@ -376,13 +376,22 @@ Rectangle {
                             spacing: 40
 
                             RoundButton {
+                                property bool isCpuLoadActive;
                                 id: loadButton
                                 upperColor: "#6d6d6d"
                                 lowerColor: "#4a4a4a"
                                 borderColor: "#dadada"
-                                buttonLabel: "CPU<br>Load"
+                                buttonLabel: "Load<br>on"
 
                                 onButtonClick: {
+                                    isCpuLoadActive = !isCpuLoadActive;
+                                    cpuInfo.setCpuLoadActive(isCpuLoadActive);
+
+                                    if(isCpuLoadActive)
+                                        buttonLabel = "Load<br>off"
+                                    else
+                                        buttonLabel = "Load<br>on"
+
                                 }
                             }
                             RoundButton {

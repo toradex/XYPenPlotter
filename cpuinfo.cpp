@@ -11,6 +11,7 @@
 CpuInfo::CpuInfo(QObject *parent)
     : QTimer(parent)
 {
+
     refreshCpuTicks();
     connect(this, SIGNAL(timeout()), this, SLOT(tick()));
     setInterval(500);
@@ -48,12 +49,28 @@ void CpuInfo::refreshCpuTicks( )
     idle = query.at(4).toInt();
 }
 
-void CpuInfo::generateCpuLoad()
-{
-    qDebug() << "Called generateCpuLoad";
-}
 
 float CpuInfo::getCpuLoad()
 {
     return cpuLoad;
 }
+
+void CpuInfo::setCpuLoadActive(bool load)
+{
+    qDebug() << "Called generateCpuLoad" << load;
+    if (load)
+    {
+        worker = new CpuLoadWorker;
+        workerThread = new QThread;
+        worker->moveToThread(workerThread);
+        QMetaObject::invokeMethod(worker, "doCpuLoad", Qt::QueuedConnection);
+        worker->setEnd(false);
+        workerThread->start();
+    }
+    else
+    {
+        worker->setEnd(true);
+    }
+
+}
+
