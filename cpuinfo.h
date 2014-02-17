@@ -13,6 +13,7 @@ public:
     CpuInfo(QObject *parent = 0);
     Q_INVOKABLE void setCpuLoadActive(bool load);
     Q_INVOKABLE float getCpuLoad();
+    Q_INVOKABLE void shutdown();
 
 private:
     void refreshCpuTicks();

@@ -418,7 +418,7 @@ Rectangle {
                                 buttonLabel: "Quit"
 
                                 onButtonClick: {
-                                    Qt.quit();
+                                    cpuInfo.shutdown();
                                 }
                             }
                             RoundButton {

@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QDebug>
+#include <QProcess>
 
 #define CPU_INFO_FILE "/proc/stat"
 
@@ -53,6 +54,12 @@ void CpuInfo::refreshCpuTicks( )
 float CpuInfo::getCpuLoad()
 {
     return cpuLoad;
+}
+
+void CpuInfo::shutdown()
+{
+    QProcess *process = new QProcess(this);
+    process->start("halt");
 }
 
 void CpuInfo::setCpuLoadActive(bool load)

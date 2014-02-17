@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QTimer>
 
+
 XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     QObject(parent)
 {
@@ -13,7 +14,8 @@ void XYPenPlotterController::setState(QString state)
 {
     qDebug() << state;
 
-    QTimer::singleShot(2000, this, SLOT(setStoppedState()));
+    if(state == "RUNNING")
+        QTimer::singleShot(10000, this, SLOT(setStoppedState()));
 }
 
 
