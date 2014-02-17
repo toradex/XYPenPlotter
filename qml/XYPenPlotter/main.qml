@@ -1,6 +1,7 @@
 import QtQuick 1.1
 
 Rectangle {
+    id: mainRectangle
     width: 1024
     height: 600
     color: "#f1f1f1"
@@ -91,7 +92,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
 
-                        text: qsTr("XY-Plotter")
+                        text: qsTr("XY-Pen-Plotter")
                         font.bold: true
                         style: Text.Raised
                         styleColor: "black"
@@ -397,16 +398,16 @@ Rectangle {
                                 upperColor: "#6d6d6d"
                                 lowerColor: "#4a4a4a"
                                 borderColor: "#dadada"
-                                buttonLabel: "Load<br>on"
+                                buttonLabel: "LOAD<br>ON"
 
                                 onButtonClick: {
                                     isCpuLoadActive = !isCpuLoadActive;
                                     cpuInfo.setCpuLoadActive(isCpuLoadActive);
 
                                     if(isCpuLoadActive)
-                                        buttonLabel = "Load<br>off"
+                                        buttonLabel = "LOAD<br>OFF"
                                     else
-                                        buttonLabel = "Load<br>on"
+                                        buttonLabel = "LOAD<br>ON"
 
                                 }
                             }
@@ -426,7 +427,23 @@ Rectangle {
                                 lowerColor: "#4a4a4a"
                                 borderColor: "#dadada"
 
-                                buttonLabel: "Send"
+                                buttonLabel: "Turn UI"
+
+                                onButtonClick: {
+                                    rotationAnimation.to += 180
+                                    rotationAnimation.start()
+                                    //mainRectangle.rotation += 180
+                                }
+
+                                NumberAnimation {
+                                    id: rotationAnimation;
+                                    target: mainRectangle;
+                                    property: "rotation";
+                                    duration: 5000;
+                                    easing.type: Easing.InOutQuad;
+                                    to: 0
+                                }
+
 
                             }
                         }
