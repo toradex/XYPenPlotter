@@ -314,15 +314,31 @@ Rectangle {
                         height: parent.height
 
                         MainRoundButton {
+                            id: mainButton;
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
 
                             buttonSize: 180
                             buttonLabel: "Start"
 
-                            onButtonClick: {
-                                startAnimation.start()
+                            Timer {
+                                id: delayStartAnimation;
+                                interval: 200
+                                onTriggered: startAnimation.start();
                             }
+
+                            onButtonClick: {
+                                /* Cheat a bit by delaing animation, improves button animation on Vybrid */
+                                delayStartAnimation.start();
+                                ppController.setState(state);
+                            }
+                            Connections {
+                                 target: ppController
+                                 onStateChanged: {
+                                     console.log("onStateChanged: " + newState)
+                                     mainButton.state = newState;
+                                 }
+                             }
                         }
                     }
                 }

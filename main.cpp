@@ -5,6 +5,7 @@
 #include <QtDeclarative>
 #include <QWSServer>
 #include "cpuinfo.h"
+#include "xypenplottercontroller.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,8 @@ int main(int argc, char *argv[])
 
     CpuInfo cpuInfo;
     viewer.rootContext()->setContextProperty("cpuInfo", &cpuInfo);
+    XYPenPlotterController ppController;
+    viewer.rootContext()->setContextProperty("ppController", &ppController);
 
     viewer.addImportPath(QLatin1String("modules"));
     viewer.setOrientation(QtQuick1ApplicationViewer::ScreenOrientationAuto);

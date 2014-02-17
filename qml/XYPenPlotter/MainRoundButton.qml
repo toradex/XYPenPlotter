@@ -8,7 +8,6 @@ Rectangle {
 
     signal buttonClick()
     onButtonClick: {
-        console.log(buttonLabel + " clicked" )
 
         switch (state) {
         case "RUNNING":

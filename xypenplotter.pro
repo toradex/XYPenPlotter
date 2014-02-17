@@ -9,7 +9,8 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     cpuinfo.cpp \
-    cpuloadworker.cpp
+    cpuloadworker.cpp \
+    xypenplottercontroller.cpp
 
 # Installation path
 # target.path =
@@ -24,7 +25,8 @@ RESOURCES = resources.qrc
 
 HEADERS += \
     cpuinfo.h \
-    cpuloadworker.h
+    cpuloadworker.h \
+    xypenplottercontroller.h
 
 # Please do not modify the following two lines. Required for deployment.
 include(qtquick1applicationviewer/qtquick1applicationviewer.pri)
