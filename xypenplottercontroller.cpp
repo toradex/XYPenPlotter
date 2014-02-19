@@ -7,7 +7,9 @@
 #include <linux/mcc_config.h>
 #include <linux/mcc_common.h>
 #include <linux/mcc_linux.h>
+extern "C" {
 #include <mcc_api.h>
+}
 #endif
 #include <stdint.h>
 
