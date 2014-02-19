@@ -330,8 +330,9 @@ Rectangle {
 
                             onButtonClick: {
                                 /* Cheat a bit by delaing animation, improves button animation on Vybrid */
-                                delayStartAnimation.start();
-                                ppController.setState(state);
+                                if(ppController.isStopped())
+                                    delayStartAnimation.start();
+                                ppController.pressStart();
                             }
                             Connections {
                                  target: ppController

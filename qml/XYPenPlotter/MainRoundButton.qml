@@ -7,20 +7,6 @@ Rectangle {
     state: "STOPPED"
 
     signal buttonClick()
-    onButtonClick: {
-
-        switch (state) {
-        case "RUNNING":
-            state = "PAUSED";
-            break;
-        case "PAUSED":
-            state = "RUNNING";
-            break;
-        case "STOPPED":
-            state = "RUNNING";
-            break;
-        }
-    }
 
     states: [
         State {
