@@ -17,6 +17,7 @@ public:
     explicit XYPenPlotterController(QObject *parent = 0);
     Q_INVOKABLE void pressStart();
     Q_INVOKABLE bool isStopped();
+    Q_INVOKABLE void home();
 
 private:
     msg_t msg, rcv_msg;
@@ -29,8 +30,9 @@ signals:
 
 private slots:
     void setStoppedState();
+#ifdef Q_WS_QWS
     void receivePlotterMessages();
-
+#endif
 public slots:
 
 };

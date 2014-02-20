@@ -10,7 +10,6 @@
 extern "C" {
 #include <mcc_api.h>
 }
-#endif
 #include <stdint.h>
 
 
@@ -197,18 +196,12 @@ void XYPenPlotterController::setCurrentState(QString newState)
     emit stateChanged(newState);
 }
 
-bool XYPenPlotterController::isStopped()
-{
-    return currentState == "STOPPED";
-}
-
 /*
  * User requests new state by pressing button
  */
 void XYPenPlotterController::pressStart()
 {
     int ret;
-#ifdef Q_WS_QWS
 
     qDebug() << "pressStart, currentState is " << currentState;
 
@@ -217,7 +210,7 @@ void XYPenPlotterController::pressStart()
         // Load the graphics using mqxboot again...
         QProcess *process = new QProcess(this);
 //        process->start("mqxboot /var/cache/xyplotter/TE.bin 0x8fa00000 0x0f000411");
-        process->start("mqxboot /var/cache/xyplotter/COLIBRI.bin 0x8fa00000 0x0f000411");
+        process->start("mqxboot /var/cache/xyplotter/TORDY.bin 0x8fa00000 0x0f000411");
         process->waitForFinished();
 
         qDebug("Send PLOTTER_DRAW");
@@ -239,15 +232,39 @@ void XYPenPlotterController::pressStart()
         if(send_msg(&msg))
             qDebug() << "Failed to send PLOTTER_PAUSE message.";
     }
-#else
-    if(requestedState == "RUNNING")
-        QTimer::singleShot(10000, this, SLOT(setStoppedState()));
-#endif
+
 }
 
+void XYPenPlotterController::home()
+{
+}
+
+#else
+
+XYPenPlotterController::XYPenPlotterController(QObject *parent) :
+    QObject(parent)
+{
+}
+
+void XYPenPlotterController::pressStart()
+{
+    if(currentState == "STOPPED")
+        QTimer::singleShot(10000, this, SLOT(setStoppedState()));
+}
 
 void XYPenPlotterController::setStoppedState()
 {
     qDebug() << "updateState delayed!";
     emit stateChanged("STOPPED");
+}
+
+void XYPenPlotterController::home()
+{
+    qDebug() << "Home...";
+}
+#endif
+
+bool XYPenPlotterController::isStopped()
+{
+    return currentState == "STOPPED";
 }
