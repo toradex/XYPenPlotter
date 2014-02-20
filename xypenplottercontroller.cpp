@@ -203,14 +203,16 @@ void XYPenPlotterController::pressStart()
 {
     int ret;
 
-    qDebug() << "pressStart, currentState is " << currentState;
+    int lastPoint = selectedImage.lastIndexOf(".");
+    QString binaryFile = selectedImage.left(lastPoint) + ".bin";
+    binaryFile.remove(0, 7); // Remove file://
+    qDebug() << "pressStart, currentState is " << currentState << ", binaryFile is " << binaryFile;
 
     if (currentState == "STOPPED")
     {
         // Load the graphics using mqxboot again...
         QProcess *process = new QProcess(this);
-//        process->start("mqxboot /var/cache/xyplotter/TE.bin 0x8fa00000 0x0f000411");
-        process->start("mqxboot /var/cache/xyplotter/TORDY.bin 0x8fa00000 0x0f000411");
+        process->start("mqxboot " + binaryFile + " 0x8fa00000 0x0f000411");
         process->waitForFinished();
 
         qDebug("Send PLOTTER_DRAW");
@@ -267,4 +269,8 @@ void XYPenPlotterController::home()
 bool XYPenPlotterController::isStopped()
 {
     return currentState == "STOPPED";
+}
+void XYPenPlotterController::selectImage(QString image)
+{
+    selectedImage = image;
 }

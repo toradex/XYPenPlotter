@@ -32,5 +32,9 @@ Rectangle {
 
             color: "white"
         }
+
+        onButtonClick: {
+            parent.buttonClick();
+        }
     }
 }

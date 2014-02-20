@@ -142,7 +142,6 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     height: 360
                     width: 410
-
                     Image {
                         id: selectedPictureBackground;
                         anchors.horizontalCenter: parent.horizontalCenter;
@@ -155,7 +154,20 @@ Rectangle {
                             id: selectedPicture;
                             width: parent.width
                             height: parent.height
-                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            //source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+
+
+                            function selectImage (picture) {
+                                console.log("Selected picture: " + picture.source)
+                                selectedPicture.source = picture.source
+                                ppController.selectImage(picture.source)
+                            }
+
+                            Component.onCompleted: {
+                                // Select first picture by default
+                                selectImage(picture1);
+                            }
+
                         }
 
                         SequentialAnimation {
@@ -216,35 +228,16 @@ Rectangle {
                            }
 
                        }
-/*
-                        Rectangle {
-                             id: flashingblob
-                             anchors.horizontalCenter: parent.horizontalCenter;
-                             anchors.verticalCenter: parent.verticalCenter;
-                             width: 300; height: 300
-                             color: "#aaaaaa"
-                             opacity: 1.0
-
-                             NumberAnimation {
-                                 id: animateOpacity
-                                 target: flashingblob
-                                 properties: "width, height"
-                                 from: 300.0
-                                 to: 0.0
-                                 duration: 2000
-                                 easing
-                                 {
-                                     type: Easing.InQuart;
-                                 }
-                            }
-                        }*/
                     }
                 }
 
                 Item {
+                    id: imageStrip
+
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 400
                     height: 75
+
 
                     Image {
                         anchors.left: parent.left
@@ -257,7 +250,12 @@ Rectangle {
                             id: picture1
                             width: parent.width
                             height: parent.height
-                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            source: "/var/cache/xyplotter/image1.svg"
+                            MouseArea {
+                                width: parent.width
+                                height: parent.height
+                                onClicked: selectedPicture.selectImage(parent)
+                            }
                         }
 
                     }
@@ -273,7 +271,12 @@ Rectangle {
                             id: picture2
                             width: 100
                             height: parent.height
-                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            source: "/var/cache/xyplotter/image2.svg"
+                            MouseArea {
+                                width: parent.width
+                                height: parent.height
+                                onClicked: selectedPicture.selectImage(parent)
+                            }
                         }
                     }
 
@@ -289,7 +292,12 @@ Rectangle {
                             id: picture3
                             width: 100
                             height: parent.height
-                            source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            source: "/var/cache/xyplotter/image3.svg"
+                            MouseArea {
+                                width: parent.width
+                                height: parent.height
+                                onClicked: selectedPicture.selectImage(parent)
+                            }
                         }
                     }
                 }
@@ -399,16 +407,16 @@ Rectangle {
                                 upperColor: "#6d6d6d"
                                 lowerColor: "#4a4a4a"
                                 borderColor: "#dadada"
-                                buttonLabel: "LOAD<br>ON"
+                                buttonLabel: "STRESS<br>CPU"
 
                                 onButtonClick: {
                                     isCpuLoadActive = !isCpuLoadActive;
                                     cpuInfo.setCpuLoadActive(isCpuLoadActive);
 
                                     if(isCpuLoadActive)
-                                        buttonLabel = "LOAD<br>OFF"
+                                        buttonLabel = "STRESS<br>OFF"
                                     else
-                                        buttonLabel = "LOAD<br>ON"
+                                        buttonLabel = "STRESS<br>CPU"
 
                                 }
                             }
@@ -434,9 +442,11 @@ Rectangle {
                                 buttonLabel: "Turn UI"
 
                                 onButtonClick: {
+                                    /*
                                     rotationAnimation.to += 180
                                     rotationAnimation.start()
-                                    //mainRectangle.rotation += 180
+                                    */
+                                    mainRectangle.rotation += 180
                                 }
 
                                 NumberAnimation {

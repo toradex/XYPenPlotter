@@ -18,12 +18,14 @@ public:
     Q_INVOKABLE void pressStart();
     Q_INVOKABLE bool isStopped();
     Q_INVOKABLE void home();
+    Q_INVOKABLE void selectImage(QString image);
 
 private:
     msg_t msg, rcv_msg;
 
     void setCurrentState(QString newState);
     QString currentState;
+    QString selectedImage;
 
 signals:
     void stateChanged(QString newState);
