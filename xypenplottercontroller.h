@@ -31,9 +31,10 @@ signals:
     void stateChanged(QString newState);
 
 private slots:
-    void setStoppedState();
 #ifdef Q_WS_QWS
     void receivePlotterMessages();
+#else
+    void setStoppedState();
 #endif
 public slots:
 

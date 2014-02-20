@@ -6,8 +6,12 @@ DEPLOYMENTFOLDERS = folder_01
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-#LIBS += -lmcc
+LIBS += -lmcc
 
+# Disable "the mangling of 'va_list' has changed in GCC 4.4", since we cannot do anything about it...
+*-g++* {
+    QMAKE_CXXFLAGS += -Wno-psabi
+}
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \

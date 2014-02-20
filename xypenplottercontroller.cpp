@@ -45,7 +45,7 @@ int receive_msg(msg_t *msg, int timeout)
 {
     int retval, num_of_received_bytes;
 
-    retval = mcc_recv_copy(&mqx_endpoint_a5, msg, sizeof(msg_t), &num_of_received_bytes, timeout);
+    retval = mcc_recv_copy(&mqx_endpoint_a5, msg, sizeof(msg_t), (MCC_MEM_SIZE *)&num_of_received_bytes, timeout);
     if(retval)
         qDebug("mcc_recv_copy failed, result = 0x%x",  retval);
     return retval;
@@ -145,7 +145,7 @@ void XYPenPlotterController::receivePlotterMessages()
     }
     else if(rcv_msg.status == PLOTTER_START)
     {
-        qDebug("Plotter running... %d\%", rcv_msg.data);
+        qDebug("Plotter running... %d%%", rcv_msg.data);
 
         // Update progress bar...
 
