@@ -92,7 +92,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
 
-                        text: qsTr("XY-Pen-Plotter")
+                        text: qsTr("Colibri VF61 Vybrid Real-Time Demo")
                         font.bold: true
                         style: Text.Raised
                         styleColor: "black"
@@ -107,7 +107,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
 
-                        text: qsTr("Demo")
+                        text: qsTr("XY Pen Plotter")
                         font.bold: true
                         style: Text.Raised
                         styleColor: "black"
@@ -393,7 +393,7 @@ Rectangle {
 
                             spacing: 40
 
-                            RoundButton {
+                            SmallRoundButton {
                                 property bool isCpuLoadActive;
                                 id: loadButton
                                 upperColor: "#6d6d6d"
@@ -412,17 +412,20 @@ Rectangle {
 
                                 }
                             }
-                            RoundButton {
-                                id: quitButton
-                                borderColor: "#dadada"
 
-                                buttonLabel: "Quit"
+                            SmallRoundButton {
+                                id: homingButton
+
+                                borderColor: "#dadada"
+                                buttonLabel: "Home"
 
                                 onButtonClick: {
-                                    cpuInfo.shutdown();
+                                    //cpuInfo.shutdown();
+                                    ppController.home();
                                 }
                             }
-                            RoundButton {
+
+                            SmallRoundButton {
                                 id: sendButton
                                 upperColor: "#6d6d6d"
                                 lowerColor: "#4a4a4a"
@@ -447,6 +450,7 @@ Rectangle {
 
 
                             }
+
                         }
 
                     }

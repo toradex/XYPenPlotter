@@ -6,9 +6,7 @@ DEPLOYMENTFOLDERS = folder_01
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-LIBS += -L /home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf/usr/lib/ -lmcc
 #LIBS += -lmcc
-INCLUDEPATH += -I /home/ags/projects/toradex/oe-core/build-v2.1/out-eglibc/sysroots/colibri-vf/usr/include/
 
 
 # The .cpp file which was generated for your project. Feel free to hack it.
@@ -24,7 +22,8 @@ OTHER_FILES += \
     qml/XYPenPlotter/Button.qml \
     qml/XYPenPlotter/main.qml \
     qml/XYPenPlotter/ProgressBar.qml \
-    qml/XYPenPlotter/RoundButton.qml
+    qml/XYPenPlotter/RoundButton.qml \
+    qml/XYPenPlotter/SmallRoundButton.qml
 
 RESOURCES = resources.qrc
 

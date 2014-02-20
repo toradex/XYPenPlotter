@@ -1,18 +1,18 @@
 import QtQuick 1.1
 
 Rectangle {
-    width: buttonSize
-    height: buttonSize
-    radius: buttonSize*0.5
+    id: roundButton
+    width: parent.buttonSize
+    height: parent.buttonSize
+    radius: parent.buttonSize*0.5
     state: "RELEASED"
-
+/*
     property color upperColor: "#ff7474"
     property color lowerColor: "#d94e4e"
     property color borderColor: "#d94e4e"
     property int borderSize: 1
     property int buttonSize: 100
-    property string buttonLabel: "QUIT"
-
+*/
     signal buttonClick()
     onButtonClick: {
         console.log(buttonLabel + " clicked" )
@@ -33,13 +33,13 @@ Rectangle {
     states: [
         State {
             name: "PRESSED"
-            PropertyChanges { target: idUpperColor; color: lowerColor }
-            PropertyChanges { target: idLowerColor; color: upperColor }
+            PropertyChanges { target: idUpperColor; color: parent.lowerColor }
+            PropertyChanges { target: idLowerColor; color: parent.upperColor }
         },
         State {
             name: "RELEASED"
-            PropertyChanges { target: idUpperColor; color: upperColor }
-            PropertyChanges { target: idLowerColor; color: lowerColor }
+            PropertyChanges { target: idUpperColor; color: parent.upperColor }
+            PropertyChanges { target: idLowerColor; color: parent.lowerColor }
         }
     ]
 
@@ -59,26 +59,12 @@ Rectangle {
     ]
 
     gradient: Gradient {
-        GradientStop { id: idUpperColor; position: 0.0; color: upperColor }
-        GradientStop { id: idLowerColor; position: 1.0; color: lowerColor }
+        GradientStop { id: idUpperColor; position: 0.0; color: parent.upperColor }
+        GradientStop { id: idLowerColor; position: 1.0; color: parent.lowerColor }
     }
 
 
-
-    Text {
-        anchors.centerIn: parent
-        horizontalAlignment: Text.AlignHCenter;
-        text: parent.buttonLabel
-        font.pixelSize: 20
-        font.bold: true
-        font.capitalization: Font.AllUppercase
-        style: Text.Sunken
-        styleColor: "black"
-
-        color: "white"
-    }
-
-    border.width: borderSize
-    border.color: borderColor
+    border.width: parent.borderSize
+    border.color: parent.borderColor
     smooth: true
 }
