@@ -92,7 +92,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
 
-                        text: qsTr("Colibri VF61 Vybrid Real-Time Demo")
+                        text: qsTr("Colibri Vybrid VF61 Real-Time Demo")
                         font.bold: true
                         style: Text.Raised
                         styleColor: "black"
