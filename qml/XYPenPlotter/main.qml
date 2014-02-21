@@ -154,20 +154,20 @@ Rectangle {
                             id: selectedPicture;
                             width: parent.width
                             height: parent.height
-                            //source: "/var/cache/xyplotter/toradex_with_slogan_black-outlines.svg"
+                            source: "/var/cache/xyplotter/image0.svg"
 
 
                             function selectImage (picture) {
                                 console.log("Selected picture: " + picture.source)
+
+                                /* Switch picture... */
+                                var tmp = selectedPicture.source;
                                 selectedPicture.source = picture.source
+                                picture.source = tmp;
+
+                                /* Notify Pen Plotter controller about this change... */
                                 ppController.selectImage(picture.source)
                             }
-
-                            Component.onCompleted: {
-                                // Select first picture by default
-                                selectImage(picture1);
-                            }
-
                         }
 
                         SequentialAnimation {
@@ -236,20 +236,22 @@ Rectangle {
 
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: 400
-                    height: 75
+                    height: 85
 
 
                     Image {
                         anchors.left: parent.left
 
-                        width: 100
+                        width: 110
                         height: parent.height
                         source: "qrc:///background_image_small.png"
 
                         Image {
                             id: picture1
-                            width: parent.width
-                            height: parent.height
+                            anchors.centerIn: parent
+                            width: 100
+                            height: 75
+                            smooth: true
                             source: "/var/cache/xyplotter/image1.svg"
                             MouseArea {
                                 width: parent.width
@@ -263,14 +265,16 @@ Rectangle {
                     Image {
                         anchors.horizontalCenter: parent.horizontalCenter
 
-                        width: 100
+                        width: 110
                         height: parent.height
                         source: "qrc:///background_image_small.png"
 
                         Image {
                             id: picture2
+                            anchors.centerIn: parent
                             width: 100
-                            height: parent.height
+                            height: 75
+                            smooth: true
                             source: "/var/cache/xyplotter/image2.svg"
                             MouseArea {
                                 width: parent.width
@@ -284,14 +288,16 @@ Rectangle {
                     Image {
                         anchors.right: parent.right
 
-                        width: 100
+                        width: 110
                         height: parent.height
                         source: "qrc:///background_image_small.png"
 
                         Image {
                             id: picture3
+                            anchors.centerIn: parent
                             width: 100
-                            height: parent.height
+                            height: 75
+                            smooth: true
                             source: "/var/cache/xyplotter/image3.svg"
                             MouseArea {
                                 width: parent.width
