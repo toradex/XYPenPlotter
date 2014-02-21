@@ -329,7 +329,7 @@ Rectangle {
                     ProgressBarLabel {
                         id: progressText
                         text: "0%"
-                        textLabel: "Progress"
+                        textLabel: "Drawing"
                         color: "#002a45"
                     }
 
