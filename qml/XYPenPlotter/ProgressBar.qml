@@ -2,23 +2,34 @@ import QtQuick 1.1
 
 Rectangle {
     property int progress: 100
+    property string progressFillImage: "qrc:///progressbar_blue.png"
+    property color borderColor: "#002a45"
 
     onProgressChanged:
     {
         imageProgress.width = progress * width / 100;
-        height: 19
     }
 
-    height: 19
+    height: 18
 
-    Image {
-        anchors.left: parent.left
-        anchors.leftMargin: 2
+    Rectangle {
         id: imageProgress
-        height: 19
-        fillMode: Image.TileHorizontally
+        border.color: borderColor
+        border.width: 1
+        radius: 1
+        height: 17
+        width: 100
+        Image {
+            anchors.left: parent.left
+            anchors.leftMargin: 1
+            anchors.top: parent.top
+            anchors.topMargin: 1
+            width: parent.width - 1
+            height: 16
+            fillMode: Image.TileHorizontally
 
-        source: "qrc:///progressbar.png"
+            source: progressFillImage
+        }
     }
 
     color: "#e3e3e3";

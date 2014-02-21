@@ -2,6 +2,7 @@
 #define XYPENPLOTTERCONTROLLER_H
 
 #include <QObject>
+#include <QTimer>
 #include <stdint.h>
 
 typedef struct msg_s
@@ -22,13 +23,19 @@ public:
 
 private:
     msg_t msg, rcv_msg;
+    QTimer *timer;
 
     void setCurrentState(QString newState);
+    void setProgress(int progress);
     QString currentState;
     QString selectedImage;
 
+#ifndef Q_WS_QWS
+    int counter;
+#endif
 signals:
     void stateChanged(QString newState);
+    void progressUpdate(int progress);
 
 private slots:
 #ifdef Q_WS_QWS

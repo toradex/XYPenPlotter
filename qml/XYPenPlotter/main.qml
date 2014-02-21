@@ -316,10 +316,55 @@ Rectangle {
                 height: parent.height;
                 width: parent.width - columnPicture.width;
 
+                Row {
+                    height: 40
+                    width: parent.width
+                }
+
+                Row {
+
+                    height: 35
+                    width: parent.width
+
+                    ProgressBarLabel {
+                        id: progressText
+                        text: "0%"
+                        textLabel: "Progress"
+                        color: "#002a45"
+                    }
+
+                }
+
+                Row {
+                    height: 30
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: parent.width - 40
+
+
+                    ProgressBar {
+                        id: progressBar
+                        width: parent.width
+                        progressFillImage: "qrc:///progressbar_blue.png"
+                        borderColor: "#002a45"
+
+
+                        /* This receives progress from ppController */
+                        Connections {
+                             target: ppController
+                             onProgressUpdate: {
+                                 progressBar.progress = progress;
+                                 progressText.text = progress + "%";
+                             }
+
+                         }
+                    }
+
+                }
+
 
                 /* Big button */
                 Row {
-                    height: 300
+                    height: 220
                     width: parent.width
 
                     CoolLine {
@@ -348,6 +393,8 @@ Rectangle {
                                     delayStartAnimation.start();
                                 ppController.pressStart();
                             }
+
+                            /* Receive printer state changes from ppController, update Button accordingly... */
                             Connections {
                                  target: ppController
                                  onStateChanged: {
@@ -360,33 +407,28 @@ Rectangle {
                 }
 
                 Row {
-                    height: 20
+                    height: 35
                     width: parent.width
 
-                    Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: "CPU-Load"
-                        color: "#141414"
+                    ProgressBarLabel {
+                        id: cpuLoadText
+                        textLabel: "CPU-Load"
+                        text: "0%"
+                        color: "#5c680e"
                     }
                 }
 
                 Row {
-                    height: 50
+                    height: 30
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width - 40
 
 
                     ProgressBar {
+                        id: progressBarCpu
                         width: parent.width
-                        id: progressBar
-
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 5
-
-                            id: cpuLoadText
-                            text: "0%"
-                        }
+                        progressFillImage: "qrc:///progressbar_green.png"
+                        borderColor: "#99ac1c"
                     }
 
                 }
@@ -485,8 +527,8 @@ Rectangle {
         interval: 300; running: true; repeat: true;
         onTriggered: {
             var load = cpuInfo.getCpuLoad();
-            cpuLoadText.text = load.toFixed(1);
-            progressBar.progress = load;
+            cpuLoadText.text = load.toFixed(0) + "%";
+            progressBarCpu.progress = load;
         }
 
     }

@@ -125,7 +125,7 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     if(send_msg(&msg))
         return;
 
-    QTimer *timer = new QTimer(this);
+    timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(receivePlotterMessages()));
     timer->start(100);
 }
@@ -148,6 +148,7 @@ void XYPenPlotterController::receivePlotterMessages()
         qDebug("Plotter running... %d%%", rcv_msg.data);
 
         // Update progress bar...
+        setProgress(rcv_msg.data);
 
         trigger = true;
     }
@@ -186,15 +187,6 @@ void XYPenPlotterController::receivePlotterMessages()
     }
 }
 
-/*
- * Printer says which state it is in...
- */
-void XYPenPlotterController::setCurrentState(QString newState)
-{
-    qDebug() << "printer is in new state:" << newState;
-    currentState = newState;
-    emit stateChanged(newState);
-}
 
 /*
  * User requests new state by pressing button
@@ -241,23 +233,54 @@ void XYPenPlotterController::home()
 {
 }
 
-#else
+#else /* Q_WS_QWS => Desktop... */
 
 XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     QObject(parent)
 {
+    setCurrentState("STOPPED");
+    timer = new QTimer(this);
+    timer->setInterval(100);
+    connect(timer, SIGNAL(timeout()), this, SLOT(setStoppedState()));
 }
 
 void XYPenPlotterController::pressStart()
 {
+    qDebug() << "pressStart";
+
     if(currentState == "STOPPED")
-        QTimer::singleShot(10000, this, SLOT(setStoppedState()));
+    {
+        // We set state imeaditly..
+        setCurrentState("RUNNING");
+        counter = 0;
+
+        timer->start();
+    }
+    else if(currentState == "RUNNING")
+    {
+        timer->stop();
+        setCurrentState("PAUSED");
+    }
+    else if(currentState == "PAUSED")
+    {
+        timer->start();
+        setCurrentState("RUNNING");
+    }
 }
 
 void XYPenPlotterController::setStoppedState()
 {
-    qDebug() << "updateState delayed!";
-    emit stateChanged("STOPPED");
+    counter++;
+
+    /* After 5 seconds, we stop simulated printing... */
+    if(counter >= 50)
+    {
+        qDebug() << "setStoppedState";
+        setCurrentState("STOPPED");
+        timer->stop();
+    }
+
+    setProgress(counter * 2);
 }
 
 void XYPenPlotterController::home()
@@ -273,4 +296,25 @@ bool XYPenPlotterController::isStopped()
 void XYPenPlotterController::selectImage(QString image)
 {
     selectedImage = image;
+}
+
+/*
+ * Printer says which state it is in...
+ */
+void XYPenPlotterController::setCurrentState(QString newState)
+{
+    qDebug() << "printer is in new state:" << newState;
+    currentState = newState;
+    emit stateChanged(newState);
+}
+
+/*
+ * Update current progress
+ */
+void XYPenPlotterController::setProgress(int progress)
+{
+    if(progress > 100)
+        emit progressUpdate(100);
+    else
+        emit progressUpdate(progress);
 }

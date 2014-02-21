@@ -1,9 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>toradex-logo-white.png</file>
-        <file>progressbar.png</file>
         <file>background.png</file>
         <file>background_image_small.png</file>
         <file>background_image.png</file>
+        <file>progressbar_blue.png</file>
+        <file>progressbar_green.png</file>
+        <file>label.png</file>
     </qresource>
 </RCC>
