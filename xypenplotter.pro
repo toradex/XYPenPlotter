@@ -6,7 +6,10 @@ DEPLOYMENTFOLDERS = folder_01
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-LIBS += -lmcc
+nomcc {
+} else {
+    LIBS += -lmcc
+}
 
 # Disable "the mangling of 'va_list' has changed in GCC 4.4", since we cannot do anything about it...
 *-g++* {
