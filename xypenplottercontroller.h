@@ -16,6 +16,7 @@ class XYPenPlotterController : public QObject
     Q_OBJECT
 public:
     explicit XYPenPlotterController(QObject *parent = 0);
+    ~XYPenPlotterController();
     Q_INVOKABLE void pressStart();
     Q_INVOKABLE bool isStopped();
     Q_INVOKABLE void home();
@@ -23,6 +24,13 @@ public:
 
 private:
     msg_t msg, rcv_msg;
+    int fd;
+    void *map_base_read, *virt_addr_read;
+    void *map_base_write, *virt_addr_write;
+    void *map_base_exist, *virt_addr_exist;
+    int send_msg(msg_t *msg);
+    int receive_msg(msg_t *msg);
+    unsigned int firmware_exists(void);
     QTimer *timer;
 
     void setCurrentState(QString newState);

@@ -7,14 +7,27 @@
 #include <linux/mcc_config.h>
 #include <linux/mcc_common.h>
 #include <linux/mcc_linux.h>
-extern "C" {
-#include <mcc_api.h>
-}
 #include <stdint.h>
 
+extern "C" {
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <signal.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <termios.h>
+#include <sys/types.h>
+#include <sys/mman.h>
+}
 
-#define MCC_MQX_NODE_A5 1
-#define MCC_MQX_NODE_M4 2
+#define MAP_SIZE 4096UL
+#define MAP_MASK (MAP_SIZE - 1)
+#define ADDR_READ 0x8f9ffffc
+#define ADDR_WRITE 0x8f9ffff8
+#define ADDR_EXIST 0x8f9ffff4
 
 #define PLOTTER_STOP    0 /* Plotter is in Stopped mode */
 #define PLOTTER_START   1 /* Plotter is in Started mode */
@@ -24,99 +37,69 @@ extern "C" {
 #define PLOTTER_HOME    11
 #define PLOTTER_WELCOME 12
 
-
-MCC_ENDPOINT    mqx_endpoint_a5 = {0,0,1};
-MCC_ENDPOINT    mqx_endpoint_m4 = {1,0,2};
-
-
-int send_msg(msg_t *msg)
+int XYPenPlotterController::send_msg(msg_t *msg)
 {
-    int retval;
+    *((unsigned long *) virt_addr_write) = msg->data;
 
-    retval = mcc_send(&mqx_endpoint_m4, msg, sizeof(msg_t), 0xffffffff);
-    if(retval)
-        qDebug("mcc_send failed, result = 0x%x", retval);
-
-    //mcc_destroy(mqx_endpoint_a5.node);
-    return retval;
+    return 0;
 }
 
-int receive_msg(msg_t *msg, int timeout)
+int XYPenPlotterController::receive_msg(msg_t *msg)
 {
-    int retval, num_of_received_bytes;
+    int val;
 
-    retval = mcc_recv_copy(&mqx_endpoint_a5, msg, sizeof(msg_t), (MCC_MEM_SIZE *)&num_of_received_bytes, timeout);
-    if(retval)
-        qDebug("mcc_recv_copy failed, result = 0x%x",  retval);
-    return retval;
+    val = *((unsigned long *) virt_addr_read);
+    msg->status = (val >> 16) & 0xff;
+    msg->data = val & 0xff;
+
+    return 0;
 }
 
+unsigned int XYPenPlotterController::firmware_exists(void)
+{
+    unsigned int val;
 
+    val = *((unsigned long *) virt_addr_exist);
+
+    return val;
+}
 
 XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     QObject(parent)
 {
-    MCC_INFO_STRUCT info_data;
-    int retval = 0;
-    uint32_t node_num = mqx_endpoint_a5.node;
-
-    retval = mcc_initialize(node_num);
-    if(retval)
-    {
-        qDebug("Error during mcc_initialize, result = %d", retval);
-        return;
-    }
-
-    retval = mcc_get_info(node_num, &info_data);
-    if(retval)
-    {
-        qDebug("Error during mcc_get_info, result = %d", retval);
-        return;
-    }
-
     qDebug("Plotter app");
-    qDebug("mcc version: %s", info_data.version_string);
 
-    retval = mcc_create_endpoint(&mqx_endpoint_a5, mqx_endpoint_a5.port);
-    if(retval)
-    {
-        qDebug("mcc_create_endpoint failes, result = 0x%x", retval);
-        mcc_destroy(node_num);
-        return;
-    }
+    if((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1)
+        qDebug("Open /dev/mem error");
+
+    map_base_read = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, ADDR_READ & ~MAP_MASK);
+    map_base_write = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, ADDR_WRITE & ~MAP_MASK);
+    map_base_exist = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, ADDR_EXIST & ~MAP_MASK);
+
+    if(map_base_read == (void*) -1)
+        qDebug("map_base_exist error");
+    if(map_base_write == (void*) -1)
+        qDebug("map_base_exist error");
+    if(map_base_exist == (void*) -1)
+        qDebug("map_base_exist error");
+
+    virt_addr_read = map_base_read + (ADDR_READ & MAP_MASK);
+    virt_addr_write = map_base_write + (ADDR_WRITE & MAP_MASK);
+    virt_addr_exist = map_base_exist + (ADDR_EXIST & MAP_MASK);
 
     qDebug("Connecting to plotter...");
     msg.data = PLOTTER_WELCOME;
 
-    do {
-        retval = send_msg(&msg);
+    while(firmware_exists() != 0xdeadbeef) {
+        // Firmware is not loaded!? Load the plotter firmware...
+        qDebug("Loading firmware...");
+        QProcess *process = new QProcess(this);
+        process->start("mqxboot /var/cache/xyplotter/plotter.bin 0x8f000400 0x8f000411");
+        process->waitForFinished();
 
-        if(retval == MCC_ERR_ENDPOINT)
-        {
-            // Firmware is not loaded!? Load the plotter firmware...
-            qDebug("Loading firmware...");
-            QProcess *process = new QProcess(this);
-            process->start("mqxboot /var/cache/xyplotter/plotter.bin 0x8f000400 0x0f000411");
-            process->waitForFinished();
-
-            // Wait until its ready...
-            QTime dieTime= QTime::currentTime().addMSecs(100);
-            while( QTime::currentTime() < dieTime );
-        }
-    } while (retval != MCC_SUCCESS);
-
-    qDebug("Welocme message sent! Waiting for response...");
-    if(receive_msg(&rcv_msg, 1000000))
-        return;
-
-    if(rcv_msg.status != PLOTTER_WELCOME)
-    {
-        qDebug("Oops! Something went wrong! Plotter response = 0x%x\n", rcv_msg.status);
-        return;
-    }
-    else
-    {
-        qDebug("Greeting received. Connected to ploter!\n");
+        // Wait until its ready...
+        QTime dieTime= QTime::currentTime().addMSecs(100);
+        while( QTime::currentTime() < dieTime );
     }
 
     qDebug("Homing plotter");
@@ -127,14 +110,14 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(receivePlotterMessages()));
-    timer->start(100);
+    timer->start(300);
 }
 
 
 
 void XYPenPlotterController::receivePlotterMessages()
 {
-    if(receive_msg(&rcv_msg, 100))
+    if(receive_msg(&rcv_msg))
         return;
 
     if(rcv_msg.status == PLOTTER_DRAW)
@@ -229,6 +212,14 @@ void XYPenPlotterController::home()
     msg.data = PLOTTER_HOME;
     if(send_msg(&msg))
         return;
+}
+
+XYPenPlotterController::~XYPenPlotterController()
+{
+    munmap(map_base_read, MAP_SIZE);
+    munmap(map_base_write, MAP_SIZE);
+    munmap(map_base_exist, MAP_SIZE);
+    close(fd);
 }
 
 #else /* Q_WS_QWS => Desktop... */
