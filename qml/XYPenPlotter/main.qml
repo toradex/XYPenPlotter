@@ -166,7 +166,7 @@ Rectangle {
                                 picture.source = tmp;
 
                                 /* Notify Pen Plotter controller about this change... */
-                                ppController.selectImage(picture.source)
+                                ppController.selectImage(selectedPicture.source)
                             }
 
                             Component.onCompleted: {

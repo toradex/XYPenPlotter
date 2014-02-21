@@ -166,6 +166,7 @@ void XYPenPlotterController::receivePlotterMessages()
         if(currentState != "STOPPED")
             setCurrentState("STOPPED");
         // Reset progress bar...
+        setProgress(0);
     }
     else
     {
