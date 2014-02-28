@@ -134,7 +134,6 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
 
 void XYPenPlotterController::receivePlotterMessages()
 {
-    bool trigger = false;
     if(receive_msg(&rcv_msg, 100))
         return;
 
@@ -149,13 +148,10 @@ void XYPenPlotterController::receivePlotterMessages()
 
         // Update progress bar...
         setProgress(rcv_msg.data);
-
-        trigger = true;
     }
     else if(rcv_msg.status == PLOTTER_UNPAUSE)
     {
         setCurrentState("RUNNING");
-        trigger = true;
     }
     else if(rcv_msg.status == PLOTTER_PAUSE)
     {
@@ -164,27 +160,20 @@ void XYPenPlotterController::receivePlotterMessages()
     else if(rcv_msg.status == PLOTTER_HOME)
     {
         setCurrentState("STOPPED");
-        trigger = true;
     }
     else if(rcv_msg.status == PLOTTER_STOP)
     {
         if(currentState != "STOPPED")
             setCurrentState("STOPPED");
-        trigger = true;
         // Reset progress bar...
     }
     else
     {
         qDebug("Something went wrong! Plotter status = 0x%x", rcv_msg.status);
     }
-
-    // Trigger a dummy message to get status back...
-    if (trigger)
-    {
-        msg.data = 0xff;
-        if(send_msg(&msg))
-            return;
-    }
+    msg.data = 0xff;
+    if(send_msg(&msg))
+        return;
 }
 
 
@@ -212,6 +201,8 @@ void XYPenPlotterController::pressStart()
         ret = send_msg(&msg);
         if(ret)
             qDebug("Failed to send PLOTTER_DRAW message, ret %d.", ret);
+        setCurrentState("RUNNING");
+
     }
     else if(currentState == "PAUSED")
     {
@@ -219,18 +210,24 @@ void XYPenPlotterController::pressStart()
         ret = send_msg(&msg);
         if(ret)
             qDebug("Failed to send PLOTTER_START message, ret %d.", ret);
+        setCurrentState("RUNNING");
     }
     else if (currentState == "RUNNING")
     {
         msg.data = PLOTTER_PAUSE;
         if(send_msg(&msg))
             qDebug() << "Failed to send PLOTTER_PAUSE message.";
+        setCurrentState("PAUSED");
     }
 
 }
 
 void XYPenPlotterController::home()
 {
+    qDebug() << "Home...";
+    msg.data = PLOTTER_HOME;
+    if(send_msg(&msg))
+        return;
 }
 
 #else /* Q_WS_QWS => Desktop... */
@@ -242,6 +239,10 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     timer = new QTimer(this);
     timer->setInterval(100);
     connect(timer, SIGNAL(timeout()), this, SLOT(setStoppedState()));
+}
+
+XYPenPlotterController::~XYPenPlotterController()
+{
 }
 
 void XYPenPlotterController::pressStart()

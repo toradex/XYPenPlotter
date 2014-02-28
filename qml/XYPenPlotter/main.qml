@@ -168,6 +168,10 @@ Rectangle {
                                 /* Notify Pen Plotter controller about this change... */
                                 ppController.selectImage(picture.source)
                             }
+
+                            Component.onCompleted: {
+                                ppController.selectImage(selectedPicture.source)
+                            }
                         }
 
                         SequentialAnimation {
