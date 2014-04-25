@@ -4,9 +4,6 @@
 #include <QProcess>
 #include <QTime>
 #ifdef Q_WS_QWS
-#include <linux/mcc_config.h>
-#include <linux/mcc_common.h>
-#include <linux/mcc_linux.h>
 #include <stdint.h>
 
 extern "C" {
@@ -90,16 +87,26 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     qDebug("Connecting to plotter...");
     msg.data = PLOTTER_WELCOME;
 
-    while(firmware_exists() != 0xdeadbeef) {
-        // Firmware is not loaded!? Load the plotter firmware...
+
+    if(firmware_exists() != 0xdeadbeef) {
         qDebug("Loading firmware...");
         QProcess *process = new QProcess(this);
-        process->start("mqxboot /var/cache/xyplotter/plotter.bin 0x8f000400 0x8f000411");
+        process->start("mqxboot /var/cache/xyplotter/plotter.bin 0x8f000400 0x0f000411");
         process->waitForFinished();
+        if(process->exitCode() != 0) {
+            qDebug("Loading firmware failed");
+            qDebug("mqxboot: returned %d", process->exitCode());
+            return;
+        }
+    }
 
+    QTime dieTime = QTime::currentTime().addSecs(2);
+    while(firmware_exists() != 0xdeadbeef) {
         // Wait until its ready...
-        QTime dieTime= QTime::currentTime().addMSecs(100);
-        while( QTime::currentTime() < dieTime );
+        if (QTime::currentTime() > dieTime) {
+            qDebug("Timeout waiting for firmware");
+            return;
+        }
     }
 
     qDebug("Homing plotter");
