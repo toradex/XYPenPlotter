@@ -1,7 +1,7 @@
 import QtQuick 1.1
 
 Rectangle {
-    property int progress: 100
+    property int progress: 0
     property string progressFillImage: "qrc:///progressbar_blue.png"
     property color borderColor: "#002a45"
 
@@ -18,7 +18,7 @@ Rectangle {
         border.width: 1
         radius: 1
         height: 17
-        width: 100
+        width: 0
         Image {
             anchors.left: parent.left
             anchors.leftMargin: 1
