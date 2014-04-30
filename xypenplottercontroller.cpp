@@ -91,7 +91,7 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     if(firmware_exists() != 0xdeadbeef) {
         qDebug("Loading firmware...");
         QProcess *process = new QProcess(this);
-        process->start("mqxboot /var/cache/xyplotter/plotter.bin 0x3f000400 0x1f000411");
+        process->start("mqxboot /var/cache/xyplotter/plotter.bin 0x8f000400 0x0f000411");
         process->waitForFinished();
         if(process->exitCode() != 0) {
             qDebug("Loading firmware failed");
