@@ -25,19 +25,18 @@ extern "C" {
 #define PLOTTER_WELCOME 12
 
 
-MCC_ENDPOINT    mqx_endpoint_a5 = {0,0,1};
-MCC_ENDPOINT    mqx_endpoint_m4 = {1,0,2};
+MCC_ENDPOINT endpoint_a5 = {0,0,1};
+MCC_ENDPOINT endpoint_m4 = {1,0,2};
 
 
 int send_msg(msg_t *msg)
 {
     int retval;
 
-    retval = mcc_send(&mqx_endpoint_m4, msg, sizeof(msg_t), 0xffffffff);
+    retval = mcc_send(&endpoint_m4, msg, sizeof(msg_t), 0xffffffff);
     if(retval)
         qDebug("mcc_send failed, result = 0x%x", retval);
 
-    //mcc_destroy(mqx_endpoint_a5.node);
     return retval;
 }
 
@@ -45,7 +44,7 @@ int receive_msg(msg_t *msg, int timeout)
 {
     int retval, num_of_received_bytes;
 
-    retval = mcc_recv_copy(&mqx_endpoint_a5, msg, sizeof(msg_t), (MCC_MEM_SIZE *)&num_of_received_bytes, timeout);
+    retval = mcc_recv_copy(&endpoint_a5, msg, sizeof(msg_t), (MCC_MEM_SIZE *)&num_of_received_bytes, timeout);
     if(retval)
         qDebug("mcc_recv_copy failed, result = 0x%x",  retval);
     return retval;
@@ -58,7 +57,7 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
 {
     MCC_INFO_STRUCT info_data;
     int retval = 0;
-    uint32_t node_num = mqx_endpoint_a5.node;
+    uint32_t node_num = endpoint_a5.node;
 
     retval = mcc_initialize(node_num);
     if(retval)
@@ -77,7 +76,7 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     qDebug("Plotter app");
     qDebug("mcc version: %s", info_data.version_string);
 
-    retval = mcc_create_endpoint(&mqx_endpoint_a5, mqx_endpoint_a5.port);
+    retval = mcc_create_endpoint(&endpoint_a5, endpoint_a5.port);
     if(retval)
     {
         qDebug("mcc_create_endpoint failes, result = 0x%x", retval);
