@@ -45,12 +45,12 @@ Rectangle {
             PropertyChanges { target: mainRoundButton; buttonLabelState: "Drawing" }
         },
         State {
-            name: "HOMING"
+            name: "WORKING"
             PropertyChanges { target: mainRoundButton; upperColor: "#bcbcbc" }
             PropertyChanges { target: mainRoundButton; lowerColor: "#cccccc" }
             PropertyChanges { target: mainRoundButton; borderColor: "#ababab" }
             PropertyChanges { target: mainRoundButton; buttonLabel: "Wait..." }
-            PropertyChanges { target: mainRoundButton; buttonLabelState: "Homing" }
+            PropertyChanges { target: mainRoundButton; buttonLabelState: "Working" }
         }
     ]
 

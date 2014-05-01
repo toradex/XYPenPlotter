@@ -27,8 +27,13 @@ private:
 
     void setCurrentState(QString newState);
     void setProgress(int progress);
+    void handleMessage(msg_t *rcv_msg);
+
+    bool commandSent;
     QString currentState;
+
     QString selectedImage;
+    QString binaryFile;
 
 #ifndef Q_WS_QWS
     int counter;

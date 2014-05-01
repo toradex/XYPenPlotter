@@ -13,8 +13,8 @@ extern "C" {
 #include <stdint.h>
 
 
-#define MCC_MQX_NODE_A5 1
-#define MCC_MQX_NODE_M4 2
+#define MCC_NODE_A5 1
+#define MCC_NODE_M4 2
 
 #define PLOTTER_STOP    0 /* Plotter is in Stopped mode */
 #define PLOTTER_START   1 /* Plotter is in Started mode */
@@ -25,8 +25,8 @@ extern "C" {
 #define PLOTTER_WELCOME 12
 
 
-MCC_ENDPOINT endpoint_a5 = {0,0,1};
-MCC_ENDPOINT endpoint_m4 = {1,0,2};
+MCC_ENDPOINT endpoint_a5 = {0,0,MCC_NODE_A5};
+MCC_ENDPOINT endpoint_m4 = {1,0,MCC_NODE_M4};
 
 
 int send_msg(msg_t *msg)
@@ -130,37 +130,31 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
 }
 
 
-
-void XYPenPlotterController::receivePlotterMessages()
+void XYPenPlotterController::handleMessage(msg_t *rcv_msg)
 {
-    if(receive_msg(&rcv_msg, 100))
-        return;
-
-    if(rcv_msg.status == PLOTTER_DRAW)
+    if(rcv_msg->status == PLOTTER_DRAW)
     {
         qDebug("Plotter start draw!");
         setCurrentState("RUNNING");
     }
-    else if(rcv_msg.status == PLOTTER_START)
+    else if(rcv_msg->status == PLOTTER_START)
     {
-        qDebug("Plotter running... %d%%", rcv_msg.data);
-
         // Update progress bar...
-        setProgress(rcv_msg.data);
+        setProgress(rcv_msg->data);
     }
-    else if(rcv_msg.status == PLOTTER_UNPAUSE)
+    else if(rcv_msg->status == PLOTTER_UNPAUSE)
     {
         setCurrentState("RUNNING");
     }
-    else if(rcv_msg.status == PLOTTER_PAUSE)
+    else if(rcv_msg->status == PLOTTER_PAUSE)
     {
         setCurrentState("PAUSED");
     }
-    else if(rcv_msg.status == PLOTTER_HOME)
+    else if(rcv_msg->status == PLOTTER_HOME)
     {
-        setCurrentState("STOPPED");
+        setCurrentState("WORKING");
     }
-    else if(rcv_msg.status == PLOTTER_STOP)
+    else if(rcv_msg->status == PLOTTER_STOP)
     {
         if(currentState != "STOPPED")
             setCurrentState("STOPPED");
@@ -169,11 +163,21 @@ void XYPenPlotterController::receivePlotterMessages()
     }
     else
     {
-        qDebug("Something went wrong! Plotter status = 0x%x", rcv_msg.status);
+        qDebug("Something went wrong! Plotter status = 0x%x", rcv_msg->status);
     }
-    msg.data = 0xff;
-    if(send_msg(&msg))
-        return;
+}
+
+void XYPenPlotterController::receivePlotterMessages()
+{
+    if(receive_msg(&rcv_msg, 100) == 0)
+        handleMessage(&rcv_msg);
+
+    if (!commandSent) {
+        msg.data = 0xff;
+        if(send_msg(&msg))
+            return;
+    }
+    commandSent = false;
 }
 
 
@@ -184,42 +188,45 @@ void XYPenPlotterController::pressStart()
 {
     int ret;
 
-    int lastPoint = selectedImage.lastIndexOf(".");
-    QString binaryFile = selectedImage.left(lastPoint) + ".bin";
-    binaryFile.remove(0, 7); // Remove file://
+    if (commandSent)
+        return;
+
     qDebug() << "pressStart, currentState is " << currentState << ", binaryFile is " << binaryFile;
 
     if (currentState == "STOPPED")
     {
         // Load the graphics using mqxboot again...
         QProcess *process = new QProcess(this);
-        process->start("mqxboot " + binaryFile + " 0x8fa00000 0x0f000411");
+        process->start("mqxboot " + binaryFile + " 0x8fa00000 0x0");
         process->waitForFinished();
 
         qDebug("Send PLOTTER_DRAW");
         msg.data = PLOTTER_DRAW;
         ret = send_msg(&msg);
-        if(ret)
+        if(ret) {
             qDebug("Failed to send PLOTTER_DRAW message, ret %d.", ret);
-        setCurrentState("RUNNING");
-
+            return;
+        }
     }
     else if(currentState == "PAUSED")
     {
         msg.data = PLOTTER_UNPAUSE;
         ret = send_msg(&msg);
-        if(ret)
+        if(ret) {
             qDebug("Failed to send PLOTTER_START message, ret %d.", ret);
-        setCurrentState("RUNNING");
+            return;
+        }
     }
     else if (currentState == "RUNNING")
     {
         msg.data = PLOTTER_PAUSE;
-        if(send_msg(&msg))
+        if(send_msg(&msg)) {
             qDebug() << "Failed to send PLOTTER_PAUSE message.";
-        setCurrentState("PAUSED");
+            return;
+        }
     }
 
+    commandSent = true;
 }
 
 void XYPenPlotterController::home()
@@ -228,6 +235,7 @@ void XYPenPlotterController::home()
     msg.data = PLOTTER_HOME;
     if(send_msg(&msg))
         return;
+    commandSent = true;
 }
 
 #else /* Q_WS_QWS => Desktop... */
@@ -239,10 +247,6 @@ XYPenPlotterController::XYPenPlotterController(QObject *parent) :
     timer = new QTimer(this);
     timer->setInterval(100);
     connect(timer, SIGNAL(timeout()), this, SLOT(setStoppedState()));
-}
-
-XYPenPlotterController::~XYPenPlotterController()
-{
 }
 
 void XYPenPlotterController::pressStart()
@@ -297,6 +301,11 @@ bool XYPenPlotterController::isStopped()
 void XYPenPlotterController::selectImage(QString image)
 {
     selectedImage = image;
+
+    int lastPoint = selectedImage.lastIndexOf(".");
+    binaryFile = selectedImage.left(lastPoint) + ".bin";
+    // Remove "file://"
+    binaryFile.remove(0, 7);
 }
 
 /*
@@ -304,9 +313,11 @@ void XYPenPlotterController::selectImage(QString image)
  */
 void XYPenPlotterController::setCurrentState(QString newState)
 {
-    qDebug() << "printer is in new state:" << newState;
-    currentState = newState;
-    emit stateChanged(newState);
+    if (currentState != newState) {
+        qDebug() << "printer is in new state:" << newState;
+        currentState = newState;
+        emit stateChanged(newState);
+    }
 }
 
 /*
