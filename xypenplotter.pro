@@ -16,6 +16,17 @@ nomcc {
     QMAKE_CXXFLAGS += -Wno-psabi
 }
 
+# Project Options
+TEMPLATE = app
+TARGET = xypenplotter
+INCLUDEPATH += .
+DEPENDPATH += .
+MOC_DIR = .build
+OBJECTS_DIR = .build
+RCC_DIR = .build
+UI_DIR = .build
+
+
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     cpuinfo.cpp \
@@ -23,7 +34,7 @@ SOURCES += main.cpp \
     xypenplottercontroller.cpp
 
 # Installation path
-# target.path =
+target.path = /usr/bin
 
 OTHER_FILES += \
     qml/XYPenPlotter/Button.qml \
@@ -42,3 +53,26 @@ HEADERS += \
 # Please do not modify the following two lines. Required for deployment.
 include(qtquick1applicationviewer/qtquick1applicationviewer.pri)
 qtcAddDeployment()
+
+# use OpenGL where available
+contains(QT_CONFIG, opengl)|contains(QT_CONFIG, opengles1)|contains(QT_CONFIG, opengles2) {
+    QT += opengl
+}
+
+# disable the Wordcloud appliance (for 0.9 release)
+DEFINES += NO_WORDCLOUD_APPLIANCE
+
+# deployment on Linux
+unix {
+    target.path = /usr/bin
+    icon.files = fotowall.png
+    icon.path = /usr/share/pixmaps
+    dfile.files = fotowall.desktop
+    dfile.path = /usr/share/applications
+    man.files = fotowall.1
+    man.path = /usr/share/man/man1
+    INSTALLS += target \
+        icon \
+        dfile \
+        man
+}
